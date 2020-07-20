@@ -1,0 +1,222 @@
+/*
+ * Copyright (C) 2011 Freescale Semiconductor, Inc.
+ * Jason Liu <r64343@freescale.com>
+ *
+ * SPDX-License-Identifier:	GPL-2.0+
+ *
+ * Refer doc/README.imximage for more details about how-to configure
+ * and create imximage boot image
+ *
+ * The syntax is taken as close as possible with the kwbimage
+ */
+
+/* image version */
+IMAGE_VERSION 2
+
+/*
+ * Boot Device : one of
+ * spi, sd (the board has no nand neither onenand)
+ */
+BOOT_FROM      sd
+
+/*
+ * Device Configuration Data (DCD)
+ *
+ * Each entry must have the format:
+ * Addr-type           Address        Value
+ *
+ * where:
+ *      Addr-type register length (1,2 or 4 bytes)
+ *      Address   absolute address of the register
+ *      value     value to be stored in the register
+ */
+setmem /32	0x020e0798 =	0x000C0000	// 
+setmem /32	0x020e0758 =	0x00000000	// 
+			
+//CLOCK:			
+setmem /32	0x020e0588 =	0x00000030	// 
+setmem /32	0x020e0594 =	0x00000030	// 
+			
+//ADDRESS:			
+setmem /32	0x020e056c =	0x00000030	// 
+setmem /32	0x020e0578 =	0x00000030	// 
+setmem /32	0x020e074c =	0x00000030	// 
+			
+//CONTROL:			
+setmem /32	0x020e057c =	0x00000030	// 
+			
+setmem /32	0x020e058c =	0x00000000	// 
+setmem /32	0x020e059c =	0x00000030	// 
+setmem /32	0x020e05a0 =	0x00000030	// 
+setmem /32	0x020e078c =	0x00000030	// 
+			
+//DATA STROBE:			
+setmem /32	0x020e0750 =	0x00020000	// 
+			
+setmem /32	0x020e05a8 =	0x00000028	//*
+setmem /32	0x020e05b0 =	0x00000028	//*
+setmem /32	0x020e0524 =	0x00000028	//*
+setmem /32	0x020e051c =	0x00000028	//*
+setmem /32	0x020e0518 =	0x00000028	//*
+setmem /32	0x020e050c =	0x00000028	//*
+setmem /32	0x020e05b8 =	0x00000028	//*
+setmem /32	0x020e05c0 =	0x00000028	//*
+			
+//DATA:			
+setmem /32	0x020e0774 =	0x00020000	// 
+			
+setmem /32	0x020e0784 =	0x00000028	//*
+setmem /32	0x020e0788 =	0x00000028	//*
+setmem /32	0x020e0794 =	0x00000028	//*
+setmem /32	0x020e079c =	0x00000028	//*
+setmem /32	0x020e07a0 =	0x00000028	//*
+setmem /32	0x020e07a4 =	0x00000028	//*
+setmem /32	0x020e07a8 =	0x00000028	//*
+setmem /32	0x020e0748 =	0x00000028	//*
+			
+setmem /32	0x020e05ac =	0x00000028	//*
+setmem /32	0x020e05b4 =	0x00000028	//*
+setmem /32	0x020e0528 =	0x00000028	//*
+setmem /32	0x020e0520 =	0x00000028	//*
+setmem /32	0x020e0514 =	0x00000028	//*
+setmem /32	0x020e0510 =	0x00000028	//*
+setmem /32	0x020e05bc =	0x00000028	//*
+setmem /32	0x020e05c4 =	0x00000028	//*
+			
+//=========================================
+// DDR Controller Registers			
+//=========================================
+// Manufacturer:	Micron		
+// Device Part Number:	MT41J128M16HA-15E	
+// Clock Freq.: 	533MHz		
+// Density per CS in Gb: 	8		
+// Chip Selects used:	1		
+// Number of Banks:	8		
+// Row address:    	14		
+// Column address: 	10		
+// Data bus width	64		
+//=========================================
+setmem /32	0x021b0800 =	0xa1390003 	// 
+			
+// write leveling, based on Freescale board
+// For target board, may need to run write 
+// to fine tune these settings			
+// If target board does not use T topology,
+// should either be cleared or write leveli
+setmem /32	0x021b080c = 	0x00590064//!MM
+setmem /32	0x021b0810 = 	0x005D004D//!MM
+setmem /32	0x021b480c = 	0x00260047//!MM
+setmem /32	0x021b4810 = 	0x00090011//!MM
+			
+//#########################################
+//calibration values based on calibration c
+//Note, these calibration values are based 
+//May need to run calibration on target boa
+//#########################################
+   
+//Read DQS Gating calibration			
+setmem /32	0x021b083c =	0x4378037C	// 
+setmem /32	0x021b0840 =	0x035C0358	// 
+setmem /32	0x021b483c =	0x435C0364	// 
+setmem /32	0x021b4840 =	0x033C0310	// 
+			
+//Read calibration			
+setmem /32	0x021b0848 =	0x382A2E32	// 
+setmem /32	0x021b4848 =	0x38323040	// 
+			
+//Write calibration			
+setmem /32	0x021b0850 =	0x32343E38	// 
+setmem /32	0x021b4850 =	0x4A30443E	// 
+			
+//read data bit delay: (3 is the reccommend
+setmem /32	0x021b081c =	0x33333333	// 
+setmem /32	0x021b0820 =	0x33333333	// 
+setmem /32	0x021b0824 =	0x33333333	// 
+setmem /32	0x021b0828 =	0x33333333	// 
+setmem /32	0x021b481c =	0x33333333	// 
+setmem /32	0x021b4820 =	0x33333333	// 
+setmem /32	0x021b4824 =	0x33333333	// 
+setmem /32	0x021b4828 =	0x33333333	// 
+			
+//For i.mx6qd parts of versions A & B (v1.0
+//setmem /32	0x021b08c0 =	0x24911492	
+//setmem /32	0x021b48c0 =	0x24911492	
+			
+// Complete calibration by forced measureme
+setmem /32	0x021b08b8 =	0x00000800 	// 
+setmem /32	0x021b48b8 =	0x00000800 	// 
+			
+//MMDC init:			
+setmem /32	0x021b0004 =	0x00020036	// 
+setmem /32	0x021b0008 =	0x09444040	// 
+setmem /32	0x021b000c =	0x8A8F7955	// 
+setmem /32	0x021b0010 =	0xFF328F64	// 
+setmem /32	0x021b0014 =	0x01FF00DB	// 
+setmem /32	0x021b0018 =	0x00011740 //!M
+//NOTE about MDMISC RALAT:			
+//MDMISC: RALAT kept to the high level of 5
+//MDMISC: consider reducing RALAT if your 5
+//a. better operation at low frequency		
+//b. Small performence improvment			
+			
+setmem /32	0x021b001c =	0x00008000	// 
+setmem /32	0x021b002c =	0x000026d2	// 
+setmem /32	0x021b0030 =	0x008F1023	// 
+setmem /32	0x021b0040 =	0x00000047	// 
+			
+setmem /32	0x021b0000 =	0x841A0000	// 
+			
+// Mode register writes			
+setmem /32	0x021b001c =	0x04088032	// 
+setmem /32	0x021b001c =	0x00008033	// 
+setmem /32	0x021b001c =	0x00048031	// 
+setmem /32	0x021b001c =	0x09408030	// 
+setmem /32	0x021b001c =	0x04008040	// 
+			
+//setmem /32	0x021b001c =	0x0408803A	
+//setmem /32	0x021b001c =	0x0000803B	
+//setmem /32	0x021b001c =	0x00048039	
+//setmem /32	0x021b001c =	0x09408038	
+//setmem /32	0x021b001c =	0x04008048	
+			
+			
+setmem /32	0x021b0020 =	0x00005800	// 
+			
+// It is recommended for new board designs 
+// to program these registers to a value of
+// The DRAM ODT remains enabled and it is r
+setmem /32	0x021b0818 =	0x00011117	// 
+setmem /32	0x021b4818 =	0x00011117	// 
+			
+			
+setmem /32	0x021b0004 =	0x00025576	// 
+setmem /32	0x021b0404 = 	0x00011006	// 
+			
+setmem /32	0x021b001c =	0x00000000	// 
+
+
+/* set the default clock gate to save power */
+DATA 4 0x020c4068 0x00C03F3F
+DATA 4 0x020c406c 0x0030FC03
+DATA 4 0x020c4070 0x0FFFC000
+DATA 4 0x020c4074 0x3FF00000
+DATA 4 0x020c4078 0x00FFF300
+DATA 4 0x020c407c 0x0F0000C3
+DATA 4 0x020c4080 0x000003FF
+
+/* enable AXI cache for VDOA/VPU/IPU */
+DATA 4 0x020e0010 0xF00000CF
+/* set IPU AXI-id0 Qos=0xf(bypass) AXI-id1 Qos=0x7 */
+DATA 4 0x020e0018 0x007F007F
+DATA 4 0x020e001c 0x007F007F
+
+/*
+ * Setup CCM_CCOSR register as follows:
+ *
+ * cko1_en  = 1	   --> CKO1 enabled
+ * cko1_div = 111  --> divide by 8
+ * cko1_sel = 1011 --> ahb_clk_root
+ *
+ * This sets CKO1 at ahb_clk_root/8 = 132/8 = 16.5 MHz
+ */
+DATA 4 0x020c4060 0x000000fb
